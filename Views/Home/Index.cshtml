@@ -2,25 +2,32 @@
     ViewData["Title"] = "Home Page";
 }
 
+<div class="jumbotron">
+    <h1>Nosebleed Tracker Alpha</h1>
+    <p>For all of your nosebleed tracking needs.</p>
+</div>
+
+<h2>Bleed Events</h2>
 
 <div class="row">
     <!-- List of Bleeds -->
-    <h2>Bleed Events</h2>
-    <table>
+    
+    <table class="table text-center">
         <tr class="card-header">
-            <td class="empty"></td>
-            <td class="empty"></td>
-            <td>Description</td>
+            <th>Bleed Severity</th>
+            <th>Comments</th>
+            <th>Date</th>
         </tr>
+
         @if  (Model != null)
         {
             var added = false;
-            foreach(var t in Model)
+            foreach(var bleed in Model)
             {
-                <tr id="tr_@t.BleedId">
-                    <td>@t.Severity</td>
-                    <td>@t.Comment</td>
-                    <td>@t.Date</td>
+                <tr id="tr_@bleed.BleedId">
+                    <td>@bleed.Severity</td>
+                    <td>@bleed.Comment</td>
+                    <td>@bleed.BleedDate</td>
                 </tr>
                 added = true;
             }
@@ -36,4 +43,20 @@
             }
         }
     </table>
+
+    <h2>Log a New Bleed</h2>
+
+    <form asp-controller="Home" asp-action="LogBleed" method="post">
+
+        <label for="bleedSeverity">Bleed Severity</label>
+        <input type="number" id="bleedSeverity" name="Severity" />
+        
+        <label for="comments">Comments</label>
+        <input type="text" id="comments" name="Comment" />
+
+        <label for="bleedDateTime">Bleed Date and Time</label>
+        <input type="datetime-local" id="bleedDateTime" name="BleedDateTime" />
+
+        <button class="btn" type="submit">Submit</button>
+    </form>
 </div>

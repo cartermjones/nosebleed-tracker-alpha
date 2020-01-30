@@ -4,6 +4,8 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 
+using dto = NosebleedTrackerAlpha.Models;
+
 namespace NosebleedTrackerAlpha.Controllers
 {
     public class BleedsController : Controller
@@ -13,5 +15,7 @@ namespace NosebleedTrackerAlpha.Controllers
         {
             this.MySqlDatabase = mySqlDatabase;
         }
+        
+
     }
 }

@@ -26,23 +26,26 @@ namespace NosebleedTrackerAlpha.Controllers
 
             var cmd = this.MySqlDatabase.Connection.CreateCommand() as MySqlCommand;
 
-            cmd.CommandText = @"SELECT BleedId, Severity, Comment, Date FROM bleeds";
+            cmd.CommandText = @"SELECT BleedId, Severity, Comment, BleedDateTime FROM bleeds";
 
             using (var reader = await cmd.ExecuteReaderAsync())
                 while (await reader.ReadAsync())
                 {
-                    var t = new dto.Bleed()
+                    var bleed = new dto.Bleed()
                     {
                         BleedId = reader.GetFieldValue<int>(0),
-                        Comment = reader.GetFieldValue<string>(2)
+                        Severity = reader.GetFieldValue<int>(1),
+                        Comment = reader.GetFieldValue<string>(2),
+                        BleedDate = reader.GetFieldValue<DateTime>(3)
                     };
-                    if (!reader.IsDBNull(2))
-                        t.Date = reader.GetFieldValue<DateTime>(3);
 
-                    ret.Add(t);
+                    ret.Add(bleed);
                 }
+
             return ret;
         }
+
+       
 
         public async Task<IActionResult> Index()
         {
@@ -52,6 +55,27 @@ namespace NosebleedTrackerAlpha.Controllers
         public IActionResult Privacy()
         {
             return View();
+        }
+
+        [HttpPost]
+        public IActionResult LogBleed()
+        {
+            var severity = Request.Form["Severity"];
+            var comment = Request.Form["Comment"];
+            string unsafeBleedDateTime = Request.Form["BleedDateTime"];
+            string bleedDateTime = unsafeBleedDateTime.Replace('T', ' ');
+          
+            var cmd = this.MySqlDatabase.Connection.CreateCommand();
+            cmd.CommandText = @"INSERT INTO bleeds(Severity,Comment,BleedDateTime) VALUES (@Int, @Text,STR_TO_DATE(@DateTime, '%Y-%m-%d %H:%i'));";
+            cmd.Parameters.AddWithValue("@Int", severity);
+            cmd.Parameters.AddWithValue("@Text", comment);
+            cmd.Parameters.AddWithValue("@DateTime", bleedDateTime);
+
+            var recs = cmd.ExecuteNonQuery();
+           
+            Console.WriteLine(recs);
+           
+            return View(Index());
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]

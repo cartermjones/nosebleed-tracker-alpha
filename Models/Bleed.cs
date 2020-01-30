@@ -10,6 +10,6 @@ namespace NosebleedTrackerAlpha.Models
         public int BleedId { get; set; }
         public int Severity { get; set; }
         public string Comment { get; set; }
-        public DateTime? Date { get; set; }
+        public DateTime? BleedDate { get; set; }
     }
 }
