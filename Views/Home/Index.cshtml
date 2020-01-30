@@ -1,0 +1,39 @@
+﻿@{
+    ViewData["Title"] = "Home Page";
+}
+
+
+<div class="row">
+    <!-- List of Bleeds -->
+    <h2>Bleed Events</h2>
+    <table>
+        <tr class="card-header">
+            <td class="empty"></td>
+            <td class="empty"></td>
+            <td>Description</td>
+        </tr>
+        @if  (Model != null)
+        {
+            var added = false;
+            foreach(var t in Model)
+            {
+                <tr id="tr_@t.BleedId">
+                    <td>@t.Severity</td>
+                    <td>@t.Comment</td>
+                    <td>@t.Date</td>
+                </tr>
+                added = true;
+            }
+
+            if(!added)
+            {
+                <tr>
+                    <td></td>
+                    <td></td>
+                    <td style="display:none;"></td>
+                    <td>No bleeds found.</td>
+                </tr>
+            }
+        }
+    </table>
+</div>
