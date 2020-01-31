@@ -1,5 +1,5 @@
 # nosebleed-tracker-alpha
-Alpha version of a Nosebleed Tracker web application, designed to help people with HHT and/or chronic nosebleeds track and analyze trends in their nosebleeds.
+Alpha version of a Nosebleed Tracker web application, designed to help people with HHT and/or chronic nosebleeds track and analyze trends in their nosebleeds. The Alpha version will be able to log and manage nosebleed events for a single user, and will have no analytics features. Analytics will be built into the Beta version.
 
 Hereditary Hemorrhagic Telangiectasia (HHT) is an uncommon genetic bleeding disorder - it is characterized by arteriovenous malformations (AVMs) across the body, both internally and externally. One of the most common symptoms of HHT is chronic nosebleeds (although this is not universal), which can range in severity from a minor inconvenience to a major bleed requiring hosptilization and blood transfusions.  
 
