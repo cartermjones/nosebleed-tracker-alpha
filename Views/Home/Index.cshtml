@@ -14,73 +14,90 @@
             });
         }
     }
+ 
 </script>
 
 <div class="jumbotron">
     <h1>TOBIAS Nosebleed Tracker Alpha</h1>
     <p>Tracking Only Bleeds In A System - the TOBIAS promise, the TOBIAS way.<p>
 </div>
+<div class="container">
+    <div class="col-xl">
+        <h2>Bleed Events</h2>
 
-<h2>Bleed Events</h2>
+        <div>
+            <!-- List of Bleeds -->
 
-<div>
-    <!-- List of Bleeds -->
-    
-    <table class="table text-center">
-        <tr class="card-header">
-            <th>Bleed Severity</th>
-            <th>Comments</th>
-            <th>Date</th>
-            <th>Remove Entry</th>
-        </tr>
-
-        @if  (Model != null)
-        {
-            var added = false;
-            foreach(var bleed in Model)
-            {
-                <tr id="tr_@bleed.BleedId">
-                    <td>@bleed.Severity</td>
-                    <td>@bleed.Comment</td>
-                    <td>@bleed.BleedDate</td>
-                    <td><button class="btn" onclick="Click(@bleed.BleedId)">Delete Entry</button></td>
+            <table class="table text-center">
+                <tr class="card-header">
+                    <th>Bleed Severity</th>
+                    <th>Comments</th>
+                    <th>Date</th>
+                    <th>Edit</th>
                 </tr>
-                added = true;
-            }
 
-            if(!added)
-            {
-                <tr>
-                    <td></td>
-                    <td></td>
-                    <td style="display:none;"></td>
-                    <td>No bleeds found.</td>
-                </tr>
-            }
-        }
-    </table>
-    
-    <h2 >Log a New Bleed</h2>
-    
-    <form asp-controller="Home" asp-action="LogBleed" method="post">
-       
-        <div class="form-group">
-            <label for="bleedSeverity">Bleed Severity</label>
-            <input type="number" id="bleedSeverity" name="Severity" placeholder="1" />
-            <small class="form-text text-muted">Enter the severity of the bleed on a scale of 1-10.</small>
+                @if (Model != null)
+                {
+                    var added = false;
+                    foreach (var bleed in Model)
+                    {
+                        <tr id="tr_@bleed.BleedId">
+                            <td>@bleed.Severity</td>
+                            <td>@bleed.Comment</td>
+                            <td>@bleed.BleedDate</td>
+                            <td><button class="btn" onclick="Click(@bleed.BleedId)">Delete Entry</button></td>
+                        </tr>
+                        added = true;
+                    }
+
+                    if (!added)
+                    {
+                        <tr>
+                            <td></td>
+                            <td></td>
+                            <td style="display:none;"></td>
+                            <td>No bleeds found.</td>
+                        </tr>
+                    }
+                }
+            </table>
         </div>
-        
-        <div class="form-group">
-            <label for="comments">Comments</label>
-            <input type="text" id="comments" name="Comment" placeholder=" " />
-            <small class="form-text text-muted">Please describe the episode.</small>
+        <div class="col-xl">
+            <h2>Log a New Bleed</h2>
+
+            <form asp-controller="Home" asp-action="LogBleed" method="post">
+
+                <div class="form-group">
+                    <label for="bleedSeverity">Bleed Severity</label>
+                    <select id="bleedSeverity" name="Severity">
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                        <option value="4">4</option>
+                        <option value="5">5</option>
+                        <option value="6">6</option>
+                        <option value="7">7</option>
+                        <option value="8">8</option>
+                        <option value="9">9</option>
+                        <option value="10">10</option>
+                    </select>
+                    <small class="form-text text-muted">Select the severity of the bleed on a scale of 1-10.</small>
+                </div>
+
+                <div class="form-group">
+                    <label for="comments">Comments</label>
+                    <br />
+                    <textarea id="comments" name="Comment" cols="50"></textarea>
+                    <small class="form-text text-muted">Please describe the episode.</small>
+                </div>
+
+                <div class="form-group">
+                    <label for="bleedDateTime">Bleed Date and Time</label>
+                    <input type="datetime-local" id="bleedDateTime" name="BleedDateTime" required/>
+                </div>
+
+                <button class="btn btn-primary" type="submit">Submit</button>
+            </form>
         </div>
-       
-        <div class="form-group">
-            <label for="bleedDateTime">Bleed Date and Time</label>
-            <input type="datetime-local" id="bleedDateTime" name="BleedDateTime" />
-        </div>
-        
-        <button class="btn btn-primary" type="submit">Submit</button>
-    </form>
+    </div>
 </div>
