@@ -49,7 +49,14 @@ namespace NosebleedTrackerAlpha.Controllers
 
         public async Task<IActionResult> Index()
         {
-            return View(await this.GetBleeds());
+            try
+            {
+                return View(await this.GetBleeds());
+            }
+            catch
+            {
+                return View();
+            }
         }
 
         public IActionResult Privacy()
@@ -60,6 +67,7 @@ namespace NosebleedTrackerAlpha.Controllers
         [HttpPost]
         public IActionResult LogBleed()
         {
+            //Pull data from form
             var severity = Request.Form["Severity"];
             var comment = Request.Form["Comment"];
             string unsafeBleedDateTime = Request.Form["BleedDateTime"];
@@ -76,6 +84,17 @@ namespace NosebleedTrackerAlpha.Controllers
             Console.WriteLine(recs);
            
             return View(Index());
+        }
+
+        [HttpPost]
+        public void DeleteBleed(dto.BleedIdentifier input)
+        {
+            var cmd = this.MySqlDatabase.Connection.CreateCommand() as MySqlCommand;
+            cmd.CommandText = @"DELETE FROM bleeds WHERE BleedID = @BleedId";
+            cmd.Parameters.AddWithValue("@BleedId", input.BleedId);
+
+            var recs = cmd.ExecuteNonQuery();
+            Console.WriteLine(recs);
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
