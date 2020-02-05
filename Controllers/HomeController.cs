@@ -20,13 +20,14 @@ namespace NosebleedTrackerAlpha.Controllers
             this.MySqlDatabase = mySqlDatabase;
         }
 
+        //This method fetches bleed events from the database in descending chronological order.
         private async Task<List<dto.Bleed>> GetBleeds()
         {
             var ret = new List<dto.Bleed>();
 
             var cmd = this.MySqlDatabase.Connection.CreateCommand() as MySqlCommand;
 
-            cmd.CommandText = @"SELECT BleedId, Severity, Comment, BleedDateTime FROM bleeds";
+            cmd.CommandText = @"SELECT BleedId, Severity, Comment, BleedDateTime FROM bleeds ORDER BY BleedDateTime DESC";
 
             using (var reader = await cmd.ExecuteReaderAsync())
                 while (await reader.ReadAsync())
@@ -46,7 +47,6 @@ namespace NosebleedTrackerAlpha.Controllers
         }
 
        
-
         public async Task<IActionResult> Index()
         {
             try
@@ -64,14 +64,21 @@ namespace NosebleedTrackerAlpha.Controllers
             return View();
         }
 
+        //This method allows users to log new bleeds and corrals the datetime into the appropriate format.
         [HttpPost]
         public IActionResult LogBleed()
         {
             //Pull data from form
             var severity = Request.Form["Severity"];
-            var comment = Request.Form["Comment"];
+            string comment = Request.Form["Comment"];
             string unsafeBleedDateTime = Request.Form["BleedDateTime"];
             string bleedDateTime = unsafeBleedDateTime.Replace('T', ' ');
+
+            //To prevent possible SQL injection attacks. Not the strongest technique, but better than nothing.
+            if (comment.Contains(";"))
+            {
+                comment = "Illegal character in comment.";
+            }
           
             var cmd = this.MySqlDatabase.Connection.CreateCommand();
             cmd.CommandText = @"INSERT INTO bleeds(Severity,Comment,BleedDateTime) VALUES (@Int, @Text,STR_TO_DATE(@DateTime, '%Y-%m-%d %H:%i'));";
