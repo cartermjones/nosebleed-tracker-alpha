@@ -1,5 +1,5 @@
 # nosebleed-tracker-alpha
-Alpha version of a Nosebleed Tracker web application, designed to help people with HHT and/or chronic nosebleeds track and analyze trends in their nosebleeds. The Alpha version will be able to log and manage nosebleed events for a single user, and will have no analytics features. Analytics will be built into the Beta version.
+Alpha-1 version of a Nosebleed Tracker web application, designed to help people with HHT and/or chronic nosebleeds track and analyze trends in their nosebleeds. The Alpha version will be able to log and manage nosebleed events for a single user, and will have no analytics features so far. Analytics/reporting will be built into later versions. 
 
 ## Features and Use
 The TOBIAS Nosebleed Tracker, as it is lovingly called, currently allows the user to view logged nosebleed events, log new bleeds, and delete bleeds from the log. Bleeds are logged according to severity (on a scale of 1-10), and the user can leave a comment about the bleed event if they so desire. The user is required to log a date and time for the bleed as well (otherwise the database becomes very, very unhappy).
