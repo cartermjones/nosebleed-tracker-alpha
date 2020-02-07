@@ -92,7 +92,9 @@ namespace NosebleedTrackerAlpha.Controllers
            
             return View(Index());
         }
-
+        
+        //This method allows for bleeds to be deleted from the database. As a hard delete, it cannot be undone.
+        //In prod, this would probably be better rendered as a soft delete.
         [HttpPost]
         public void DeleteBleed(dto.BleedIdentifier input)
         {
