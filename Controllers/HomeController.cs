@@ -79,7 +79,8 @@ namespace NosebleedTrackerAlpha.Controllers
             {
                 comment = "Illegal character in comment.";
             }
-          
+            
+            //This might be better implemented using a stored procedure.
             var cmd = this.MySqlDatabase.Connection.CreateCommand();
             cmd.CommandText = @"INSERT INTO bleeds(Severity,Comment,BleedDateTime) VALUES (@Int, @Text,STR_TO_DATE(@DateTime, '%Y-%m-%d %H:%i'));";
             cmd.Parameters.AddWithValue("@Int", severity);
