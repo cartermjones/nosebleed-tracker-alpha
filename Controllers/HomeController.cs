@@ -27,7 +27,7 @@ namespace NosebleedTrackerAlpha.Controllers
 
             var cmd = this.MySqlDatabase.Connection.CreateCommand() as MySqlCommand;
 
-            cmd.CommandText = @"SELECT BleedId, Severity, Comment, BleedDateTime FROM bleeds ORDER BY BleedDateTime DESC";
+            cmd.CommandText = @"CALL spGetAllBleedsChronologicalDescending()";
 
             using (var reader = await cmd.ExecuteReaderAsync())
                 while (await reader.ReadAsync())
@@ -79,10 +79,9 @@ namespace NosebleedTrackerAlpha.Controllers
             {
                 comment = "Illegal character in comment.";
             }
-            
-            //This might be better implemented using a stored procedure.
+          
             var cmd = this.MySqlDatabase.Connection.CreateCommand();
-            cmd.CommandText = @"INSERT INTO bleeds(Severity,Comment,BleedDateTime) VALUES (@Int, @Text,STR_TO_DATE(@DateTime, '%Y-%m-%d %H:%i'));";
+            cmd.CommandText = @"CALL spLogBleed(@Int, @Text, @DateTime);";
             cmd.Parameters.AddWithValue("@Int", severity);
             cmd.Parameters.AddWithValue("@Text", comment);
             cmd.Parameters.AddWithValue("@DateTime", bleedDateTime);
@@ -93,9 +92,7 @@ namespace NosebleedTrackerAlpha.Controllers
            
             return View(Index());
         }
-        
-        //This method allows for bleeds to be deleted from the database. As a hard delete, it cannot be undone.
-        //In prod, this would probably be better rendered as a soft delete.
+
         [HttpPost]
         public void DeleteBleed(dto.BleedIdentifier input)
         {
