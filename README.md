@@ -7,7 +7,13 @@ The TOBIAS Nosebleed Tracker, as it is lovingly called, currently allows the use
 ![Nosebleed Tracker Screenshot](/tracker-screenshot.png)
 
 ## About the Database
-The database I've decided to use for this project is MySQL. The database table is called 'bleeds,' and has four fields: BleedId, Severity, Comment, and BleedDateTime. The primary key is BleedId. From this information, you can generate your own database and table to interface with the web application. This is tailored for MySQL, but if you're using another relational database (such as MS SQL Server), the tweaking required to make it work should be minimal.
+The database I've decided to use for this project is MySQL. The database can be interfaced with by using the following stored procedures:
+
+1.) <code>spGetAllBleedsChronologicalDescending()</code> - fetches all the bleeds in the database in descending chronological order.<br />
+2.) <code>spLogBleed(Severity, Comment, BleedDateTime)</code> - used for logging a new bleed. <br />
+3.) <code>spDeleteBleed(BleedId)</code> - deletes the specified bleed. (In production, this stored procedure will be modified to be less... dangerous. Right now it is a very, <i>very</i> hard delete.) <br />
+
+This is tailored for MySQL, but if you're using another relational database (such as MS SQL Server), the tweaking required to make it work should be minimal.
 
 ## About HHT
 Hereditary Hemorrhagic Telangiectasia (HHT) is an uncommon genetic bleeding disorder - it is characterized by arteriovenous malformations (AVMs) across the body, both internally and externally. One of the most common symptoms of HHT is chronic nosebleeds (although this is not universal), which can range in severity from a minor inconvenience to a major bleed requiring hosptilization and blood transfusions.  
