@@ -97,7 +97,7 @@ namespace NosebleedTrackerAlpha.Controllers
         public void DeleteBleed(dto.BleedIdentifier input)
         {
             var cmd = this.MySqlDatabase.Connection.CreateCommand() as MySqlCommand;
-            cmd.CommandText = @"DELETE FROM bleeds WHERE BleedID = @BleedId";
+            cmd.CommandText = @"CALL spDeleteBleed(@BleedId)";
             cmd.Parameters.AddWithValue("@BleedId", input.BleedId);
 
             var recs = cmd.ExecuteNonQuery();
