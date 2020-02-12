@@ -1,0 +1,22 @@
+﻿
+@{
+    ViewData["Title"] = "Report";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>Report</h1>
+
+<div>
+    <table class="table text-center">
+        <tr class="card-header">
+            <th>Average Bleed Severity</th>
+        </tr>
+        @if(Model != null)
+        {
+            <tr>
+                <td>@Model.Average</td>
+            </tr>
+        }
+    </table>
+</div>
+
