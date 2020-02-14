@@ -1,8 +1,8 @@
 # nosebleed-tracker-alpha
-Alpha version of a Nosebleed Tracker web application, designed to help people with HHT and/or chronic nosebleeds track and analyze trends in their nosebleeds. The Alpha version can currently log and manage nosebleed events for a single user, and now supports the ability to display a rudimentary report detailing the average severity of bleed events in the database.
+Alpha version of a Nosebleed Tracker web application, designed to help people with HHT and/or chronic nosebleeds track and analyze trends in their nosebleeds. The Alpha version can currently log and manage nosebleed events for a single user, and now supports the ability to display a rudimentary report detailing the average severity of bleed events in the database and the number of bleeds in the current month.
 
 ## Features and Use
-The TOBIAS Nosebleed Tracker, as it is lovingly called, currently allows the user to view logged nosebleed events, log new bleeds, and delete bleeds from the log. Bleeds are logged according to severity (on a scale of 1-10), and the user can leave a comment about the bleed event if they so desire. The user is required to log a date and time for the bleed as well (otherwise the database becomes very, very unhappy). <br /><i>Note: In the current version, there is a Report link in the navbar that directs users to a page displaying a rudimentary report. This is not reflected below.</i><br />
+The TOBIAS Nosebleed Tracker, as it is lovingly called, currently allows the user to view logged nosebleed events, log new bleeds, and delete bleeds from the log. Bleeds are logged according to severity (on a scale of 1-10), and the user can leave a comment about the bleed event if they so desire. The user is required to log a date and time for the bleed as well (otherwise the database becomes very, very unhappy). <br /><i>Note: In the current version, there is a Reports link in the navbar that directs users to a page displaying a rudimentary report. This is not reflected below.</i><br />
 
 ![Nosebleed Tracker Screenshot](/tracker-screenshot.png)
 
@@ -12,6 +12,8 @@ The database I've decided to use for this project is MySQL. The database can be 
 1.) <code>spGetAllBleedsChronologicalDescending()</code> - fetches all the bleeds in the database in descending chronological order.<br />
 2.) <code>spLogBleed(Severity, Comment, BleedDateTime)</code> - used for logging a new bleed. <br />
 3.) <code>spDeleteBleed(BleedId)</code> - deletes the specified bleed. (In production, this stored procedure will be modified to be less... dangerous. Right now it is a very, <i>very</i> hard delete.) <br />
+4.) <code>spAverageSeverity</code> - pulls the average severity of all bleeds in the database. <br />
+5.) <code>spThisMonthBleedFrequency</code> - pulls the number of bleeds for the current month. <br />
 
 This is tailored for MySQL, but if you're using another relational database (such as MS SQL Server), the tweaking required to make it work should be minimal.
 
