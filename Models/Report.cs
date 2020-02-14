@@ -7,7 +7,8 @@ namespace NosebleedTrackerAlpha.Models
 {
     public class Report
     {
-        public int Average { get; set; }
+        public int? Average { get; set; }
 
+        public long? Frequency { get; set; }
     }
 }
