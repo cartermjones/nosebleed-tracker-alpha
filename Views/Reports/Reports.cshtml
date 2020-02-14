@@ -1,0 +1,47 @@
+﻿
+@{
+    ViewData["Title"] = "Report";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1 class="text-center">Reports</h1>
+
+<div class="col-md">
+    <table class="table text-center col-md">
+        <tr class="card-header">
+            <th>Average Bleed Severity</th>
+        </tr>
+        @if (Model != null)
+        {
+            <tr>
+                <td id='sev_avg'>@Model.Average</td>
+            </tr>
+        }
+
+    </table>
+    <table class="table text-center col-md">
+        <tr class="card-header">
+            <th>Bleeds This Month</th>
+        </tr>
+        @if (Model != null)
+        {
+            <tr>
+                <td id="monthly_freq">@Model.Frequency</td>
+            </tr>
+        }
+
+    </table>
+</div>
+
+<script>
+    let average = document.querySelector('#sev_avg').textContent;
+    let tableRow = document.querySelector("td#sev_avg");
+
+    if (average <= 4) {
+       tableRow.style["color"] = "green";
+    } else if (average > 4 && average <= 7) {
+        tableRow.style["color"] = "orange";
+    } else {
+       tableRow.style["color"] = "red";
+    }
+</script>
