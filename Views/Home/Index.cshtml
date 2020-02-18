@@ -34,6 +34,7 @@
                     <th>Bleed Severity</th>
                     <th>Comments</th>
                     <th>Date</th>
+                    <th>Duration</th>
                     <th>Edit</th>
                 </tr>
 
@@ -46,6 +47,7 @@
                             <td>@bleed.Severity</td>
                             <td>@bleed.Comment</td>
                             <td>@bleed.BleedDate</td>
+                            <td>@bleed.Duration min.</td>
                             <td><button class="btn" onclick="Click(@bleed.BleedId)">Delete Entry</button></td>
                         </tr>
                         added = true;
@@ -94,7 +96,14 @@
 
                 <div class="form-group">
                     <label for="bleedDateTime">Bleed Date and Time</label>
-                    <input type="datetime-local" id="bleedDateTime" name="BleedDateTime" required/>
+                    <input type="datetime-local" id="bleedDateTime" name="BleedDateTime" required />
+                </div>
+
+                <div class="form-group">
+                    <label for="comments">Duration</label>
+                    <br />
+                    <input type="text" id="duration" name="Duration" required />
+                    <small class="form-text text-muted">Please indicate the duration (in minutes).</small>
                 </div>
 
                 <button class="btn btn-primary" type="submit">Submit</button>

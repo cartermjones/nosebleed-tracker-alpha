@@ -37,7 +37,8 @@ namespace NosebleedTrackerAlpha.Controllers
                         BleedId = reader.GetFieldValue<int>(0),
                         Severity = reader.GetFieldValue<int>(1),
                         Comment = reader.GetFieldValue<string>(2),
-                        BleedDate = reader.GetFieldValue<DateTime>(3)
+                        BleedDate = reader.GetFieldValue<DateTime>(3),
+                        Duration = reader.GetFieldValue<int>(4)
                     };
 
                     ret.Add(bleed);
@@ -73,6 +74,7 @@ namespace NosebleedTrackerAlpha.Controllers
             string comment = Request.Form["Comment"];
             string unsafeBleedDateTime = Request.Form["BleedDateTime"];
             string bleedDateTime = unsafeBleedDateTime.Replace('T', ' ');
+            var duration = Request.Form["Duration"];
 
             //To prevent possible SQL injection attacks. Not the strongest technique, but better than nothing.
             if (comment.Contains(";"))
@@ -81,10 +83,11 @@ namespace NosebleedTrackerAlpha.Controllers
             }
           
             var cmd = this.MySqlDatabase.Connection.CreateCommand();
-            cmd.CommandText = @"CALL spLogBleed(@Int, @Text, @DateTime);";
+            cmd.CommandText = @"CALL spLogBleed(@Int, @Text, @DateTime, @Duration);";
             cmd.Parameters.AddWithValue("@Int", severity);
             cmd.Parameters.AddWithValue("@Text", comment);
             cmd.Parameters.AddWithValue("@DateTime", bleedDateTime);
+            cmd.Parameters.AddWithValue("@Duration", duration);
 
             var recs = cmd.ExecuteNonQuery();
            
