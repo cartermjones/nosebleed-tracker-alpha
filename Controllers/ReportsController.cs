@@ -71,19 +71,109 @@ namespace NosebleedTrackerAlpha.Controllers
         {
             dto.Report average = GetAverage();
             dto.Report frequency = GetFrequency();
+            dto.Report customAverage = GetMonthlySeverityReport();
+            dto.Report customFrequency = GetMonthlyFrequencyReport();
 
             var report = new dto.Report()
             {
                 Average = average.Average,
-                Frequency = frequency.Frequency
+                Frequency = frequency.Frequency,
+                CustomAverage = customAverage.CustomAverage,
+                CustomFrequency = customFrequency.CustomFrequency
             };
 
             return report;
         }
-        
+
         public IActionResult Reports()
         {
             return View(AggregateReport());
+        }
+
+        [HttpPost]
+        public dto.Report GetMonthlySeverityReport()
+        {
+            try
+            {
+                var month = Request.Form["SeverityMonth"];
+                string formattedMonth = "0000-" + month.ToString() + "-00";
+
+                var cmd = this.MySqlDatabase.Connection.CreateCommand();
+
+                cmd.CommandText = @"CALL spUserSpecifiedMonthBleedSeverity(@month)";
+
+                cmd.Parameters.AddWithValue("@month", formattedMonth);
+
+                var reader = cmd.ExecuteReader();
+
+                reader.Read();
+
+                var report = new dto.Report()
+                {
+                    CustomAverage = decimal.ToInt32(reader.GetFieldValue<decimal>(0))
+                };
+
+                reader.Close();
+
+                return report;
+
+            }
+
+            catch
+            {
+                var tempReport = new dto.Report()
+                {
+                    CustomAverage = 0
+                };
+
+            return tempReport;
+            }   
+            
+        }
+
+        [HttpPost]
+        public dto.Report GetMonthlyFrequencyReport()
+        {
+            try
+            {
+                var month = Request.Form["SeverityMonth"];
+                string formattedMonth = "0000-" + month.ToString() + "-00";
+
+                if (formattedMonth is null)
+                {
+                    formattedMonth = DateTime.Now.ToString("yyyy-mm-dd");
+                }
+
+                var cmd = this.MySqlDatabase.Connection.CreateCommand();
+
+                cmd.CommandText = @"CALL spUserSpecifiedMonthBleedFrequency(@month)";
+
+                cmd.Parameters.AddWithValue("@month", formattedMonth);
+
+                var reader = cmd.ExecuteReader();
+
+                reader.Read();
+
+                var report = new dto.Report()
+                {
+                    CustomFrequency = reader.GetFieldValue<long>(0)
+                };
+
+                reader.Close();
+
+                return report;
+            }
+
+            catch
+            {
+                var tempReport = new dto.Report()
+                {
+                    CustomFrequency = 0
+                };
+                return tempReport;
+            }
+            
+
         }
 
     }
