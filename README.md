@@ -10,7 +10,7 @@ The TOBIAS Nosebleed Tracker, as it is lovingly called, currently allows the use
 The database I've decided to use for this project is MySQL. The database can be interfaced with by using the following stored procedures:
 
 1.) <code>spGetAllBleedsChronologicalDescending()</code> - fetches all the bleeds in the database in descending chronological order.<br />
-2.) <code>spLogBleed(Severity, Comment, BleedDateTime)</code> - used for logging a new bleed. <br />
+2.) <code>spLogBleed(Severity, Comment, BleedDateTime, Duration)</code> - used for logging a new bleed. <br />
 3.) <code>spDeleteBleed(BleedId)</code> - deletes the specified bleed. (In production, this stored procedure will be modified to be less... dangerous. Right now it is a very, <i>very</i> hard delete.) <br />
 4.) <code>spAverageSeverity</code> - pulls the average severity of all bleeds in the database. <br />
 5.) <code>spThisMonthBleedFrequency</code> - pulls the number of bleeds for the current month. <br />
