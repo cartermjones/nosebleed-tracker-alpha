@@ -66,11 +66,33 @@ namespace NosebleedTrackerAlpha.Controllers
             return report;
         }
 
+        //This will fetch the monthly frequency of bleeds for the current month.
+        private dto.Report GetTotalDuration()
+        {
+            var cmd = this.MySqlDatabase.Connection.CreateCommand();
+
+            cmd.CommandText = @"SELECT SUM(Duration) AS TotalDuration FROM bleeds";
+
+            var reader = cmd.ExecuteReader();
+
+            reader.Read();
+
+            var report = new dto.Report()
+            {
+               Duration = decimal.ToInt32(reader.GetFieldValue<decimal>(0))
+            };
+
+            reader.Close();
+
+            return report;
+        }
+
         //This aggregates the two above reports to pass into the View.
         private dto.Report AggregateReport()
         {
             dto.Report average = GetAverage();
             dto.Report frequency = GetFrequency();
+            dto.Report totalDuration = GetTotalDuration();
             dto.Report customAverage = GetMonthlySeverityReport();
             dto.Report customFrequency = GetMonthlyFrequencyReport();
 
@@ -78,6 +100,7 @@ namespace NosebleedTrackerAlpha.Controllers
             {
                 Average = average.Average,
                 Frequency = frequency.Frequency,
+                Duration = totalDuration.Duration,
                 CustomAverage = customAverage.CustomAverage,
                 CustomFrequency = customFrequency.CustomFrequency
             };

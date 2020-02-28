@@ -11,6 +11,8 @@ namespace NosebleedTrackerAlpha.Models
 
         public long? Frequency { get; set; }
 
+        public int? Duration { get; set; }
+
         public int? CustomAverage { get; set; }
         public long? CustomFrequency { get; set; }
     }

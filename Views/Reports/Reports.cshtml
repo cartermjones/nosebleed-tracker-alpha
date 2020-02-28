@@ -31,6 +31,18 @@
         }
 
     </table>
+    <table class="table text-center col-md">
+        <tr class="card-header">
+            <th>Total Time Bleeding (in minutes)</th>
+        </tr>
+        @if (Model != null)
+        {
+            <tr>
+                <td id="monthly_freq">@Model.Duration</td>
+            </tr>
+        }
+
+    </table>
 </div>
 
 <div class="col-xl">
